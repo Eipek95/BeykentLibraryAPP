@@ -1,0 +1,54 @@
+﻿
+<div class="card-body pb-0">
+    <h5 class="card-title">Kitapların Günlük Kiralama Fiyat Dairesel Raporları<span>| Tüm Zamanlar</span></h5>
+
+    <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/Admin/Admin/GetBooks')
+                .then(response => response.json())
+                .then(data => {
+                    // Gelen JSON verisini kullanarak echarts grafiğini oluşturma
+                    var chartData = data.map(item => {
+                        return { value: item.DailyRentalRate, name: item.Title };
+                    });
+
+                    var trafficChart = echarts.init(document.querySelector("#trafficChart"));
+                    trafficChart.setOption({
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            top: '5%',
+                            left: 'center'
+                        },
+                        series: [{
+                            name: 'Kitaplar',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '18',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: chartData
+                        }]
+                    });
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        });
+    </script>
+
+</div>

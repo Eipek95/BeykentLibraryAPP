@@ -1,0 +1,56 @@
+﻿@model List<ResultBookViewModel>
+@{
+    int count = 0;
+}
+<style>
+    .datatable-top, .datatable-bottom {
+        padding: 8px 0px;
+    }
+
+</style>
+
+<div class="col-12">
+    <div class="card-body">
+        <h5 class="card-title">Son Eklenen 5 Kitap <span>| Tüm Zamanlar</span></h5>
+        <div class="table-responsive">
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Kitap Resmi
+                        </th>
+                        <th>Kitap Adı</th>
+                        <th>Yazarı</th>
+                        <th>Konusu</th>
+                        <th>Günlük Ücreti</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        count++;
+                        <tr>
+                            <th scope="row"><a href="#">@count</a></th>
+                            <td><img src="@item.CoverImage" alt="" style="width:100px !important;"></td>
+                            <td>
+                                <a href="/Admin/Book/Update/@item.BookId">
+                                    @item.Title
+                                </a>
+                            </td>
+                            <td>@item.Author</td>
+                            <td>@item.Description</td>
+                            <td>@item.DailyRentalRate ₺</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+

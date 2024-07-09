@@ -1,0 +1,96 @@
+﻿@model List<ResultRentalViewModel>
+@{
+    ViewData["Title"] = "Kiraladığım Kitaplar";
+}
+
+
+<div class="container mt-5">
+        
+    <div class="row">
+        <h1 class="text-center">Kitaplarım</h1>
+    </div>
+
+    <div class="row">
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Kitap</th>
+                    <th scope="col">Kiralama Tarihi</th>
+                    <th scope="col">Teslim Tarihi</th>
+                    <th scope="col">Fiyat</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.RentalId</th>
+                        <td>@item.BookName</td>
+                        <td>@item.RentalDate</td>
+                        <td>
+                            @if (item.ReturnDate != null)
+                            {
+                                <p class="text-success">@item.ReturnDate</p>
+                            }
+                            else
+                            {
+                                <p class="text-danger">-</p>
+                            }
+
+                        </td>
+                        <td>@item.TotalCost ₺</td>
+
+                        <td>
+                            @if (item.ReturnDate == null)
+                            {
+                                <button class="return-button btn btn-primary" data-rental-id="@item.RentalId">Kitabı İade Et</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h6 class="text-danger text-center">
+            Fiyat Hesaplamaları Sadece İş Günleri Üzerinden Hesaplanmaktadır.Haftasonları Hesaplamaya Dahil Edilmemiştir
+        </h6>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.return-button').click(function () {
+                var rentalId = $(this).data('rental-id');
+
+                // AJAX isteği
+                $.ajax({
+                    url: '/Home/ReturnBook',
+                    type: 'POST',
+                    data: { rentalId: rentalId },
+                    success: function (response) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'İşlem Başarılı!',
+                            text: 'Kitap iade edildi.',
+                        }).then(function () {
+
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Bir hata oluştu, lütfen tekrar deneyin.',
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

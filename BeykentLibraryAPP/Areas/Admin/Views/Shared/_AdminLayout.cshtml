@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .datatable-dropdown {
+        display: none;
+    }
+
+   
+
+    .datatable-search {
+        float: left !important;
+    }
+
+    .datatable-top, .datatable-bottom {
+        padding: 8px 0px;
+    }
+
+</style>
+
+@await Component.InvokeAsync("_AdminHeaderComponentPartial")
+<body>
+
+    <!-- ======= Header ======= -->
+    @await Component.InvokeAsync("_AdminNavbarComponentPartial")
+
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    @await Component.InvokeAsync("_AdminSidebarComponentPartial")
+
+    <!-- End Sidebar-->
+
+    <main id="main" class="main">
+        
+        @RenderBody()
+       
+    </main>
+    <!-- End #main -->
+    
+    <!-- ======= Footer ======= -->
+    @await Component.InvokeAsync("_AdminFooterComponentPartial")
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    @await Component.InvokeAsync("_AdminScriptComponentPartial")
+    
+    
+    @await RenderSectionAsync("AdminScripts", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+
+</body>
+
+</html>

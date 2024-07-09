@@ -1,0 +1,69 @@
+﻿<div class="col-xxl-4 col-md-6">
+    <div class="card info-card sales-card">
+        <div class="card-body">
+            <h5 class="card-title">Sistemde Kayıtlı Kitap Sayısı <span>| Toplam</span></h5>
+
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-layers"></i>
+                </div>
+                <div class="ps-3">
+                    <h6>
+                        <a href="/admin/book/index" target="_blank" style="text-decoration:none">
+                            @ViewBag.BookCount
+                        </a>
+                    </h6>
+                    <span class="text-success small pt-1 fw-bold">Kitap</span>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="col-xxl-4 col-md-6">
+    <div class="card info-card sales-card">
+        <div class="card-body">
+            <h5 class="card-title">Sistemde Kayıtlı Admin Sayısı <span>| Toplam</span></h5>
+
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-layers"></i>
+                </div>
+                <div class="ps-3">
+                    <h6>
+                        @ViewBag.AdminCount
+                    </h6>
+                    <span class="text-success small pt-1 fw-bold">Admin</span>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="col-xxl-4 col-md-6">
+    <div class="card info-card revenue-card">
+
+
+        <div class="card-body">
+            <h5 class="card-title">Sistemde Kayıtlı Kullanıcı Sayısı <span>| Toplam</span></h5>
+
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-building"></i>
+                </div>
+                <div class="ps-3">
+                    <h6>
+                        @ViewBag.UserCount
+                    </h6>
+                    <span class="text-success small pt-1 fw-bold">Kullanıcı</span>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

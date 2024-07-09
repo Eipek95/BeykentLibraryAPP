@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model PagedResultViewModel
+
+<style>
+    .card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    .card:hover .card-overlay {
+        opacity: 1;
+    }
+
+    .card-img-top {
+        transition: opacity 0.3s;
+    }
+
+    .card:hover .card-img-top {
+        opacity: 0;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Kitap Kartı -->
+
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-md-3">
+                <div class="card mb-3 position-relative">
+                    <img src="@book.CoverImage" class="card-img-top" alt="@book.Title.ToLower()">
+                    <div class="card-overlay">
+                        <button class="btn btn-primary mr-12 rent-button" data-book-id="@book.BookId">Kitap Kirala</button>
+                        <button class="btn btn-secondary mr-12 description-button" data-book-id="@book.BookId" data-book-title="@book.Title" data-book-description="@book.Description">Kitap Açıklaması</button>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@book.Title</h5>
+                        <p class="card-text">Yazar: @book.Author</p>
+                        <p class="card-text">Günlük Kiralama Ücreti: @book.DailyRentalRate ₺</p>
+
+                        <hr />
+                        <p class="card-text">Kitap Konusu: @book.Description</p>
+
+                    </div>
+                </div>
+            </div>
+        }
+        
+       
+    </div>
+
+    <div class="modal fade" id="bookDescriptionModal" tabindex="-1" aria-labelledby="bookDescriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookDescriptionModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="bookDescriptionModalBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-3">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageIndex=@(Model.PageIndex - 1)&pageSize=8">Önceki</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Önceki</a>
+                </li>
+            }
+
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="?pageIndex=@i&pageSize=8">@i</a>
+                </li>
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageIndex=@(Model.PageIndex + 1)&pageSize=8">Sonraki</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Sonraki</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $(".rent-button").click(function (e) {
+                e.preventDefault();
+
+                var bookId = $(this).data("book-id");
+
+                $.ajax({
+                    url: '@Url.Action("RentBook", "Home")', 
+                    type: 'POST',
+                    data: { id: bookId },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'success',
+                                title: 'Kitap kiralandı!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hata',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: 'Kitap kiralama başarısız: ' + error
+                        });
+                    }
+                });
+            });
+        });
+
+
+        $(".description-button").click(function () {
+            var title = $(this).data("book-title");
+            var description = $(this).data("book-description");
+
+            $("#bookDescriptionModalLabel").text(title);
+            $("#bookDescriptionModalBody").text(description);
+
+            var bookDescriptionModal = new bootstrap.Modal(document.getElementById('bookDescriptionModal'));
+            bookDescriptionModal.show();
+        });
+    </script>
+}

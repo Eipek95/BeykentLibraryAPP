@@ -1,0 +1,88 @@
+﻿@model UpdateBookViewModel
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>Kitap Ekle</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Admin/">Admin</a></li>
+            <li class="breadcrumb-item">Kitap Güncelle</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kitap Düzenleme Sayfası</h5>
+                    <form class="row g-3 needs-validation mt-3" novalidate href="/Admin/Book/Update" method="post" enctype="multipart/form-data">
+                        <div class="row mb-3">
+                            <label for="inputText" class="col-sm-2 col-form-label">Kitap NO</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="BookId" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputTitle" class="col-sm-2 col-form-label">Kitap Adı</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="Title" required>
+                                <div class="invalid-feedback">
+                                    Lütfen Bu Alanı Doldurunuz
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputAuthor" class="col-sm-2 col-form-label">Kitap Yazarı</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="Author" required>
+                                <div class="invalid-feedback">
+                                    Lütfen Bu Alanı Doldurunuz
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputCoverImage" class="col-sm-2 col-form-label">Kitap Kapak Resmi</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="CoverImage" required>
+                                <div class="invalid-feedback">
+                                    Lütfen Bu Alanı Doldurunuz
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="inputCoverImage" class="col-sm-2 col-form-label">Kitap Konusu</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="Description" required>
+                                <div class="invalid-feedback">
+                                    Lütfen Bu Alanı Doldurunuz
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputCoverImage" class="col-sm-2 col-form-label">Günlük Kiralama Ücreti</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="DailyRentalRate" required>
+                                <div class="invalid-feedback">
+                                    Lütfen Bu Alanı Doldurunuz
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10 ">
+                                <button type="submit" class="btn btn-success form-control">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
